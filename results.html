@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: sans-serif;
+            background: url(static/output4.jpg) no-repeat;
+            background-size: cover;
+            background-position: center ;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #fff;
+            text-align: center;
+            padding-top: 0;
+            margin-top: 0;
+            padding: 5px;
+        }
+
+        .results-container {
+            /* background-color: white; */
+            padding: 30px;
+            margin: 200px 200px 450px 665px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 600px;
+            height: 600px;
+            background: transparent;
+            backdrop-filter: blur(55px);
+            box-shadow: 0 0 20px #adc3f4;
+            color: #fff;
+         }
+
+        .scan-info {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .port-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .port-list li {
+            margin-bottom: 5px;
+        }
+
+        .open {
+            /* color: green; */
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .closed {
+            /* color: red; */
+            color: #fff;
+            font-size: 20px;
+
+
+        }
+
+        .error {
+            /* color: red; */
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        a {
+            display: block;
+            margin-top: 200px;
+            padding: 5px;
+            text-align: center;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .target{
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="results-container">
+        <h1>Scan Results</h1>
+        <div class="scan-info">
+            <p class="target"><strong>Target:</strong> {{ target }}</p>
+            <p class="target"><strong>Port Range:</strong> {{ start_port }} - {{ end_port }}</p>
+            <p class="target"><strong>Duration:</strong> {{ duration }} seconds</p>
+        </div>
+
+        {% if error_message %}
+            <p class="error">{{ error_message }}</p>
+        {% else %}
+            <h2>Open Ports:</h2>
+            {% if open_ports %}
+                <ul class="port-list">
+                    {% for port in open_ports %}
+                        <li class="open">{{ port }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No open ports found.</p>
+            {% endif %}
+
+            <h2>Closed Ports:</h2>
+            {% if closed_ports %}
+                <ul class="port-list">
+                    {% for port in closed_ports %}
+                        <li class="closed">{{ port }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="target">No closed ports found in the specified range.</p>
+            {% endif %}
+        {% endif %}
+
+        <a href="/">Back to Home</a>
+    </div>
+
+</body>
+</html>
